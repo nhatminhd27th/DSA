@@ -31,26 +31,37 @@ struct node* insertNode(node *x, int value)
     }
 }
 
-int minValue(node *x)
+node* minNode(node *x)
 {
-    int min;
-    if(x->left == NULL)
-    {
-        min = x->key;
-        return min;
-    }
-    else minValue(x->left);
+    if(x->left == NULL) return x;
+    else return minNode(x->left);
 }
 
-int maxValue(node *x)
+node* maxNode(node *x)
 {
-    int max;
-    if(x->right == NULL)
+    if(x->right == NULL) return x;
+    else return maxNode(x->right);
+}
+
+node* secondMaxNode(node *x)
+{
+    if(x->right != NULL)
     {
-        max = x->key;
-        return max;
+        if(x->right->right == NULL && x->right->left == NULL) return x;
+        else return secondMaxNode(x->right);
     }
-    else minValue(x->right);
+    else return maxNode(x->left);
+}
+
+node* secondMinNode(node *x)
+{
+    node* secondMin;
+    if(x->left != NULL)
+    {
+        if(x->left->right == NULL && x->left->left == NULL) return x;
+        else return secondMinNode(x->left);
+    }
+    else return minNode(x->right);
 }
 
 void displayTree(node *x)
@@ -66,10 +77,23 @@ void displayTree(node *x)
 
 int main()
 {
-    struct node *node1 = createNode(100);
-    for(int i = 0; i < 100; i++) insertNode(node1, i);
+    struct node *node1 = createNode(15);
+    insertNode(node1, 6);
+    insertNode(node1, 18);
+    insertNode(node1, 3);
+    insertNode(node1, 7);
+    insertNode(node1, 17);
+    insertNode(node1, 20);
+    insertNode(node1, 2);
+    insertNode(node1, 4);
+    insertNode(node1, 13);
+    insertNode(node1, 9);
+    // for(int i = 0 ; i < 100 ; i++) insertNode(node1, i);
     displayTree(node1);
     printf("\n");
-    printf("Min value is: %d\n", minValue(node1));
-    printf("Max value is: %d\n", maxValue(node1));
+    printf("%d\n", node1->right->right->key);
+    printf("Min value is: %d\n", minNode(node1)->key);
+    printf("Max value is: %d\n", maxNode(node1)->key); 
+    printf("2nd Min value is: %d\n", secondMinNode(node1)->key);
+    printf("2nd Max value is: %d\n", secondMaxNode(node1)->key);
 }
