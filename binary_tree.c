@@ -55,7 +55,6 @@ node* secondMaxNode(node *x)
 
 node* secondMinNode(node *x)
 {
-    node* secondMin;
     if(x->left != NULL)
     {
         if(x->left->right == NULL && x->left->left == NULL) return x;
